@@ -1,0 +1,36 @@
+
+using UnityEngine;
+
+public class EnemyMove : MonoBehaviour
+{
+    public float speed = 6f;
+    public Transform[] checkpoints;
+    [SerializeField] private int _checkpointId = 0;
+    private float _step;
+
+    void Start()
+    {
+        _step = speed * Time.deltaTime;
+    }
+    void Update()
+    {
+        if (_checkpointId < checkpoints.Length)
+        {
+            Transform currentCheckpoint = checkpoints[_checkpointId];
+
+            transform.position = Vector3.MoveTowards(transform.position, currentCheckpoint.position, _step);
+                transform.LookAt(currentCheckpoint, Vector3.up);
+
+
+            if (Vector3.Distance(transform.position, currentCheckpoint.position) < 0.25f)
+            {
+                _checkpointId++;
+            }
+        }
+
+        else
+        {
+            _checkpointId = checkpoints.Length;
+        }
+    }
+}
